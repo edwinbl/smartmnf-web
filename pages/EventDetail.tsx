@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -15,9 +12,7 @@ import { WorkshopPostDetail } from "@/components/events/detail/WorkshopPostDetai
 import { SummitDetail } from "@/components/events/detail/SummitDetail";
 import { RoundtableDetail } from "@/components/events/detail/RoundtableDetail";
 import { ProgrammeDetail } from "@/components/events/detail/ProgrammeDetail";
-import { RegisterEventModal } from "@/components/events/RegisterEventModal";
 import { getEventBySlug, getRelatedEvents } from "@/data/events";
-import { useMockAuth } from "@/hooks/useMockAuth";
 import { toast } from "@/hooks/use-toast";
 import { eventsStorage } from "@/lib/eventsStorage";
 import { EventCard } from "@/components/events/EventCard";
@@ -25,8 +20,6 @@ import { EventCard } from "@/components/events/EventCard";
 const EventDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const event = slug ? getEventBySlug(slug) : undefined;
-  const user = useMockAuth();
-  const [modalOpen, setModalOpen] = useState(false);
 
   if (!event) {
     return (
@@ -47,10 +40,6 @@ const EventDetail = () => {
   }
 
   const handleRegister = () => {
-    if (!user) {
-      setModalOpen(true);
-      return;
-    }
     eventsStorage.addRegistered(event.slug);
     toast({ title: "You're registered", description: event.title });
   };
@@ -94,7 +83,7 @@ const EventDetail = () => {
               </h2>
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {related.map((e) => (
-                  <EventCard key={e.slug} event={e} onRegister={() => setModalOpen(true)} />
+                  <EventCard key={e.slug} event={e} onRegister={handleRegister} />
                 ))}
               </div>
             </div>
@@ -104,7 +93,7 @@ const EventDetail = () => {
       </main>
       <WireFooter />
       <WireChatbotFAB />
-      <RegisterEventModal open={modalOpen} onOpenChange={setModalOpen} event={event} />
+      
     </div>
   );
 };

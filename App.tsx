@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// TODO(migration): map [BrowserRouter, Route, Routes, useLocation] to the App Router file structure
+// TODO(migration): map [BrowserRouter, Route, Routes, usePathname] to the App Router file structure
 import { lazy, Suspense, useEffect } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -22,12 +22,7 @@ const EventsIndex = lazy(routeLoaders["/events"]);
 const EventDetail = lazy(routeLoaders["/events/:slug"]);
 const ProgrammesIndex = lazy(routeLoaders["/programmes"]);
 const ProgrammeDetail = lazy(routeLoaders["/programmes/:slug"]);
-const Login = lazy(routeLoaders["/login"]);
-const Register = lazy(routeLoaders["/register"]);
-const Welcome = lazy(routeLoaders["/welcome"]);
-const ForgotPassword = lazy(routeLoaders["/forgot-password"]);
-const ResetPassword = lazy(routeLoaders["/reset-password"]);
-const NotFound = lazy(routeLoaders["*"]);
+const NotFound = lazy(routeLoaders["Manual"]);
 const Terms = lazy(routeLoaders["/terms"]);
 const Privacy = lazy(routeLoaders["/privacy"]);
 const Accessibility = lazy(routeLoaders["/accessibility"]);
@@ -43,7 +38,7 @@ const Directories = lazy(routeLoaders["/directories"]);
 const queryClient = new QueryClient();
 
 const RouteTracker = () => {
-  const location = useLocation();
+  const location = usePathname();
   useEffect(() => {
     initGA();
   }, []);
@@ -101,16 +96,6 @@ const App = () => (
 <Route path="/programmes" element={withSuspense(<ProgrammesIndex />, "list")} />
               // TODO(migration): move route "/programmes/:slug" to app//programmes/:slug/page.tsx
 <Route path="/programmes/:slug" element={withSuspense(<ProgrammeDetail />, "detail")} />
-              // TODO(migration): move route "/login" to app//login/page.tsx
-<Route path="/login" element={withSuspense(<Login />, "form")} />
-              // TODO(migration): move route "/register" to app//register/page.tsx
-<Route path="/register" element={withSuspense(<Register />, "form")} />
-              // TODO(migration): move route "/welcome" to app//welcome/page.tsx
-<Route path="/welcome" element={withSuspense(<Welcome />, "form")} />
-              // TODO(migration): move route "/forgot-password" to app//forgot-password/page.tsx
-<Route path="/forgot-password" element={withSuspense(<ForgotPassword />, "form")} />
-              // TODO(migration): move route "/reset-password" to app//reset-password/page.tsx
-<Route path="/reset-password" element={withSuspense(<ResetPassword />, "form")} />
               // TODO(migration): move route "/terms" to app//terms/page.tsx
 <Route path="/terms" element={withSuspense(<Terms />, "detail")} />
               // TODO(migration): move route "/privacy" to app//privacy/page.tsx
@@ -133,9 +118,9 @@ const App = () => (
 <Route path="/solutions/:slug" element={withSuspense(<SolutionDetail />, "detail")} />
               // TODO(migration): move route "/directories" to app//directories/page.tsx
 <Route path="/directories" element={withSuspense(<Directories />, "detail")} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              // TODO(migration): move route "*" to app/*/page.tsx
-<Route path="*" element={withSuspense(<NotFound />)} />
+              {/Manual ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "Manual" ROUTE Manual/}
+              // TODO(migration): move route "Manual" to app/Manual/page.tsx
+<Route path="Manual" element={withSuspense(<NotFound />)} />
             </Routes>
           </ChunkErrorBoundary>
           <CookieConsent />

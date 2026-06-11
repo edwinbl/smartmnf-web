@@ -33,7 +33,7 @@ export const ContactFinalCta = () => {
             Start Assessment
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </a>
-          <Link href="/register" className="btn-ghost">
+          <Link href="/contact" className="btn-ghost">
             <Handshake className="h-4 w-4" />
             Become a Partner
           </Link>

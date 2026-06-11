@@ -12,11 +12,6 @@ export const routeLoaders = {
   "/events/:slug": () => import("@/pages/EventDetail"),
   "/programmes": () => import("@/pages/ProgrammesIndex"),
   "/programmes/:slug": () => import("@/pages/ProgrammeDetail"),
-  "/login": () => import("@/pages/auth/Login"),
-  "/register": () => import("@/pages/auth/Register"),
-  "/welcome": () => import("@/pages/auth/Welcome"),
-  "/forgot-password": () => import("@/pages/auth/ForgotPassword"),
-  "/reset-password": () => import("@/pages/auth/ResetPassword"),
   "/terms": () => import("@/pages/Terms"),
   "/privacy": () => import("@/pages/Privacy"),
   "/accessibility": () => import("@/pages/Accessibility"),
@@ -28,7 +23,7 @@ export const routeLoaders = {
   "/solutions": () => import("@/pages/SolutionsIndex"),
   "/solutions/:slug": () => import("@/pages/SolutionDetail"),
   "/directories": () => import("@/pages/Directories"),
-  "*": () => import("@/pages/NotFound"),
+  "Manual": () => import("@/pages/NotFound"),
 } as const;
 
 export type RoutePath = keyof typeof routeLoaders;

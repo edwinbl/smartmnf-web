@@ -14,12 +14,10 @@ import {
 import { EventsFilterSidebar } from "@/components/events/EventsFilterSidebar";
 import { EventCard } from "@/components/events/EventCard";
 import { EventsEmptyState } from "@/components/events/EventsEmptyState";
-import { PersonalizedEventsShelf } from "@/components/events/PersonalizedEventsShelf";
 import { EventsImpactStats } from "@/components/events/EventsImpactStats";
 import { PastEventsArchive } from "@/components/events/PastEventsArchive";
 import { RecentlyConcludedShelf } from "@/components/events/RecentlyConcludedShelf";
 import { CIISignatureEvents } from "@/components/events/CIISignatureEvents";
-import { RegisterEventModal } from "@/components/events/RegisterEventModal";
 import {
   events,
   getFlagship,
@@ -28,7 +26,6 @@ import {
   type EventItem,
   type QuickPickId,
 } from "@/data/events";
-import { useMockAuth } from "@/hooks/useMockAuth";
 import { toast } from "@/hooks/use-toast";
 import { eventsStorage } from "@/lib/eventsStorage";
 
@@ -53,12 +50,10 @@ const quickPickFilter = (e: EventItem, pick: QuickPickId | null): boolean => {
 };
 
 const EventsIndex = () => {
-  const user = useMockAuth();
   const [type, setType] = useState<string>("All");
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState<EventFilters>(emptyEventFilters);
   const [quickPick, setQuickPick] = useState<QuickPickId | null>(null);
-  const [modalEvent, setModalEvent] = useState<EventItem | null>(null);
 
   const upcoming = useMemo(() => getUpcoming(), []);
 
@@ -89,10 +84,6 @@ const EventsIndex = () => {
   }, [upcoming]);
 
   const handleRegister = (e: EventItem) => {
-    if (!user) {
-      setModalEvent(e);
-      return;
-    }
     eventsStorage.addRegistered(e.slug);
     toast({ title: "You're registered", description: e.title });
   };
@@ -129,7 +120,7 @@ const EventsIndex = () => {
       <main>
         <EventsFlagshipHero event={flagship} query={query} onQuery={setQuery} />
         <CIISignatureEvents onRegister={handleRegister} />
-        {user && <PersonalizedEventsShelf user={user} onRegister={handleRegister} />}
+        
         <section className="py-12 md:py-16" id="all-events">
           <div className="container-cii">
             <div className="mb-8">
@@ -175,11 +166,6 @@ const EventsIndex = () => {
       </main>
       <WireFooter />
       <WireChatbotFAB />
-      <RegisterEventModal
-        open={modalEvent !== null}
-        onOpenChange={(v) => !v && setModalEvent(null)}
-        event={modalEvent}
-      />
     </div>
   );
 };

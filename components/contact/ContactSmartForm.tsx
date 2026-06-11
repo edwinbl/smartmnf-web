@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { ArrowRight, Upload, Lock } from "lucide-react";
-import { FloatingInput } from "@/components/auth/FloatingInput";
+import { FloatingInput } from "@/components/forms/FloatingInput";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { isEmail, isMobile, required } from "@/lib/authValidation";
+import { isEmail, isMobile, required } from "@/lib/formValidation";
 import { INTENTS, type IntentKey } from "./ContactIntentGrid";
 import { cn } from "@/lib/utils";
 
@@ -259,7 +259,7 @@ const IntentFields = ({
               id="support-file"
               type="file"
               className="hidden"
-              accept="image/*,.pdf"
+              accept="image/Manual,.pdf"
               onChange={(e) => setFileName(e.target.files?.[0]?.name ?? null)}
             />
           </label>

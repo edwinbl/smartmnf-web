@@ -45,7 +45,7 @@ export const BookConsultation = () => {
             </div>
 
             <div className="mt-8">
-              <Link href="/register" className="btn-primary group">
+              <Link href="/contact" className="btn-primary group">
                 Schedule a Consultation
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>

@@ -14,10 +14,7 @@ import { FeaturedCollections } from "@/components/reports/FeaturedCollections";
 import { ReportsThemesExplorer } from "@/components/reports/ReportsThemesExplorer";
 import { ReportsSectorExplorer } from "@/components/reports/ReportsSectorExplorer";
 import { ReportsEmptyState } from "@/components/reports/ReportsEmptyState";
-import { PersonalizedShelf } from "@/components/reports/PersonalizedShelf";
-import { DownloadModal } from "@/components/reports/DownloadModal";
 import { reports, reportFacets, type Report, type QuickPickId } from "@/data/reports";
-import { useMockAuth } from "@/hooks/useMockAuth";
 import { toast } from "@/hooks/use-toast";
 
 
@@ -41,11 +38,9 @@ const quickPickFilter = (r: Report, pick: QuickPickId | null) => {
 };
 
 const ReportsIndex = () => {
-  const user = useMockAuth();
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState<ReportFilters>(emptyFilters);
   const [quickPick, setQuickPick] = useState<QuickPickId | null>(null);
-  const [modalReport, setModalReport] = useState<Report | null>(null);
 
   const ciiReports = useMemo(() => reports.filter((r) => r.author.includes("CII")), []);
 
@@ -68,10 +63,6 @@ const ReportsIndex = () => {
   }, [query, filters, quickPick]);
 
   const handleDownload = (r: Report) => {
-    if (r.gated && !user) {
-      setModalReport(r);
-      return;
-    }
     toast({ title: "Download started", description: r.title });
   };
 
@@ -100,10 +91,10 @@ const ReportsIndex = () => {
       <WireHeader />
       <main>
         <ReportsHero query={query} onQuery={setQuery} onTag={setQuery} />
-        {user && <PersonalizedShelf user={user} />}
+        
         <FeaturedCollections />
 
-        {/* CII Reports */}
+        {/Manual CII Reports Manual/}
         <section id="cii-reports" className="py-14 md:py-20">
           <div className="container-cii">
             <div className="mb-8">
@@ -131,7 +122,7 @@ const ReportsIndex = () => {
           }}
         />
 
-        {/* All Reports â sidebar + grid layout */}
+        {/Manual All Reports â sidebar + grid layout Manual/}
         <section id="reports" className="py-12 md:py-16">
           <div className="container-cii">
             <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
@@ -171,11 +162,6 @@ const ReportsIndex = () => {
       </main>
       <WireFooter />
       <WireChatbotFAB />
-      <DownloadModal
-        open={modalReport !== null}
-        onOpenChange={(v) => !v && setModalReport(null)}
-        report={modalReport}
-      />
     </div>
   );
 };
